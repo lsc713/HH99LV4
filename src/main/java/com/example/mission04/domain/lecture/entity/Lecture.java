@@ -1,17 +1,17 @@
 package com.example.mission04.domain.lecture.entity;
 
+import com.example.mission04.domain.lecture.dto.LectureRequestDto.*;
 import com.example.mission04.domain.lecture.entity.type.CategoryType;
 import com.example.mission04.domain.teacher.entity.Teacher;
 import com.example.mission04.global.entity.Timestamped;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
+@Builder
+@AllArgsConstructor
 @Table(name = "lecture_tbl")
 public class Lecture extends Timestamped {
 
@@ -23,7 +23,8 @@ public class Lecture extends Timestamped {
     private String name;
 
     @Column(nullable = false)
-    private Integer price;
+    private int price;
+    private String lectureIntroduce;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -39,5 +40,14 @@ public class Lecture extends Timestamped {
         this.price = price;
         this.category = category;
         this.teacher = teacher;
+    }
+
+    @Builder
+    public Lecture(CreateLectureRequestDto requestDto) {
+        this.name = requestDto.getName();
+        this.price = requestDto.getPrice();
+        this.lectureIntroduce = requestDto.getLectureIntroduce();
+        this.category = requestDto.getCategory();
+        this.teacher = requestDto.getTeacher();
     }
 }
