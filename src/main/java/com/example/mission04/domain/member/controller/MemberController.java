@@ -1,9 +1,27 @@
 package com.example.mission04.domain.member.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.mission04.domain.member.dto.MemberRequestDto.SignupRequestDto;
+import com.example.mission04.domain.member.dto.MemberResponseDto.SignupResponseDto;
+import com.example.mission04.domain.member.service.MemberService;
+import com.example.mission04.global.dto.ResponseDto;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api/v1/members")
 @RestController
 public class MemberController {
+
+    private final MemberService memberService;
+
+    public MemberController(MemberService memberService) {
+        this.memberService = memberService;
+    }
+
+    @PostMapping("/signup")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseDto<SignupResponseDto> signup(@RequestBody @Valid SignupRequestDto requestDto) {
+        SignupResponseDto responseDto = memberService.signup(requestDto);
+        return ResponseDto.success("회원 가입 기능", responseDto);
+    }
 }

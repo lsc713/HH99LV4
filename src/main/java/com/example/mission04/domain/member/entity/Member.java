@@ -21,6 +21,9 @@ public class Member {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @Column(nullable = false)
+    private String password;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private GenderType gender;
@@ -36,8 +39,9 @@ public class Member {
     private AuthorityType authority;
 
     @Builder
-    public Member(String email, GenderType gender, String phone, String address, AuthorityType authority) {
+    public Member(String email, String password, GenderType gender, String phone, String address, AuthorityType authority) {
         this.email = email;
+        this.password = password;
         this.gender = gender;
         this.phone = phone;
         this.address = address;
