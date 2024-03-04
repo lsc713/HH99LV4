@@ -1,6 +1,6 @@
 package com.example.mission04.domain.member.service;
 
-import com.example.mission04.domain.member.dto.MemberRequestDto.SignupRequestDto;
+import com.example.mission04.domain.member.dto.MemberRequestDto.SignupMemberRequestDto;
 import com.example.mission04.domain.member.dto.MemberResponseDto.SignupResponseDto;
 import com.example.mission04.domain.member.entity.Member;
 import com.example.mission04.domain.member.repository.MemberRepository;
@@ -22,9 +22,12 @@ public class MemberService {
     }
 
     @Transactional
-    public SignupResponseDto signup(SignupRequestDto requestDto) {
+    public SignupResponseDto signup(SignupMemberRequestDto requestDto) {
         if (memberRepository.existsByEmail(requestDto.getEmail())) {
             throw new CustomApiException(ErrorCode.EMAIL_ALREADY_EXISTS.getMessage());
+        }
+        if (memberRepository.existsByPhone(requestDto.getPhone())) {
+            throw new CustomApiException(ErrorCode.PHONE_ALREADY_EXISTS.getMessage());
         }
 
         String encodedPassword = passwordEncoder.encode(requestDto.getPassword());

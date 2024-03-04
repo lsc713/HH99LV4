@@ -11,7 +11,7 @@ import lombok.Getter;
 public class MemberRequestDto {
 
     @Getter
-    public static class SignupRequestDto {
+    public static class SignupMemberRequestDto {
 
         @Email(message = "이메일 형식이 아닙니다.")
         private String email;
