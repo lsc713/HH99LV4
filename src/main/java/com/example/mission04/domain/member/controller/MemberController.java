@@ -1,6 +1,6 @@
 package com.example.mission04.domain.member.controller;
 
-import com.example.mission04.domain.member.dto.MemberRequestDto.SignupRequestDto;
+import com.example.mission04.domain.member.dto.MemberRequestDto;
 import com.example.mission04.domain.member.dto.MemberResponseDto.SignupResponseDto;
 import com.example.mission04.domain.member.service.MemberService;
 import com.example.mission04.global.dto.ResponseDto;
@@ -20,7 +20,7 @@ public class MemberController {
 
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseDto<SignupResponseDto> signup(@RequestBody @Valid SignupRequestDto requestDto) {
+    public ResponseDto<SignupResponseDto> signup(@RequestBody @Valid MemberRequestDto.SignupMemberRequestDto requestDto) {
         SignupResponseDto responseDto = memberService.signup(requestDto);
         return ResponseDto.success("회원 가입 기능", responseDto);
     }
