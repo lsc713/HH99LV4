@@ -3,20 +3,18 @@ package com.example.mission04.domain.member.dto;
 import com.example.mission04.domain.member.entity.Member;
 import com.example.mission04.domain.member.entity.type.AuthorityType;
 import com.example.mission04.domain.member.entity.type.GenderType;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 public class MemberResponseDto {
 
-    @AllArgsConstructor
     @Getter
     public static class SignupResponseDto {
 
-        private String email;
-        private String phone;
-        private GenderType gender;
-        private String address;
-        private AuthorityType authority;
+        private final String email;
+        private final String phone;
+        private final GenderType gender;
+        private final String address;
+        private final AuthorityType authority;
 
         public SignupResponseDto(Member member) {
             this.email = member.getEmail();
@@ -24,6 +22,16 @@ public class MemberResponseDto {
             this.gender = member.getGender();
             this.address = member.getAddress();
             this.authority = member.getAuthority();
+        }
+    }
+
+    @Getter
+    public static class SigninMemberResponseDto {
+
+        private final String username;
+
+        public SigninMemberResponseDto(Member member) {
+            this.username = member.getEmail();
         }
     }
 }
