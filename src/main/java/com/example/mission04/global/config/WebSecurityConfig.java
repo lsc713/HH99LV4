@@ -70,6 +70,7 @@ public class WebSecurityConfig {
                 authorizeHttpRequests
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/api/v1/members/**").permitAll()
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/lectures/{lectureId}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/lectures/search").permitAll()
                         .requestMatchers(PathRequest.toH2Console()).permitAll()
