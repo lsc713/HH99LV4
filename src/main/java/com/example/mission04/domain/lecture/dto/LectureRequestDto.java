@@ -12,7 +12,7 @@ public class LectureRequestDto {
 
     @Getter
     @AllArgsConstructor
-    public class CreateLectureRequestDto {
+    public static class CreateLectureRequestDto {
         @NotBlank(message = "제목을 입력해주세요.")
         private String name;
         @NotBlank(message = "가격을 입력해주세요.")
@@ -36,4 +36,6 @@ public class LectureRequestDto {
 
 
     }
+
+
 }

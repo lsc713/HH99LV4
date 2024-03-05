@@ -1,7 +1,9 @@
 package com.example.mission04.domain.lecture.controller;
 
 import com.example.mission04.domain.lecture.dto.LectureRequestDto.CreateLectureRequestDto;
+import com.example.mission04.domain.lecture.dto.LectureResponseDto;
 import com.example.mission04.domain.lecture.dto.LectureResponseDto.CraeteLectureResponseDto;
+import com.example.mission04.domain.lecture.dto.LectureResponseDto.ReadLectureResponseDto;
 import com.example.mission04.domain.lecture.service.LectureService;
 import com.example.mission04.domain.member.entity.type.AuthorityType.Authority;
 import com.example.mission04.global.security.UserDetailsImpl;
@@ -14,6 +16,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequestMapping("/api/v1/lectures")
 @RestController
 @AllArgsConstructor
@@ -21,7 +25,7 @@ public class LectureController {
 
     private final LectureService lectureService;
 
-    @PostMapping("/{id}")
+    @PostMapping
     @Secured(Authority.ADMIN)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<CraeteLectureResponseDto> createLecture(@AuthenticationPrincipal UserDetailsImpl userDetails,
@@ -29,5 +33,19 @@ public class LectureController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(lectureService.createLecture(userDetails.getUsername(), requestDto));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ReadLectureResponseDto> readLecture(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(lectureService.readLecture(id));
+    }
+
+    @GetMapping("/{category}")
+    public ResponseEntity<List<ReadLectureResponseDto>> readLectureByCategory(@PathVariable String category) {
+        return ResponseEntity.status(HttpStatus.OK).body(lectureService.readLectureByCategory(category));
+    }
+
+
+
+
 
 }

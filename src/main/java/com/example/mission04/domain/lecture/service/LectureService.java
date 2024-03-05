@@ -10,6 +10,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.example.mission04.global.handler.exception.ErrorCode.MEMBER_ACCOUNT_NOT_FOUND;
+
 @Service
 @AllArgsConstructor
 public class LectureService {
@@ -25,7 +30,19 @@ public class LectureService {
 
     private void validateAuthority(String email) {
         if (!lectureRepository.existsByEmail(email)) {
-            throw new CustomApiException(ErrorCode.MEMBER_ACCOUNT_NOT_FOUND.getMessage());
+            throw new CustomApiException(MEMBER_ACCOUNT_NOT_FOUND.getMessage());
         }
+    }
+
+    @Transactional(readOnly = true)
+    public ReadLectureResponseDto readLecture(Long id) {
+        return new ReadLectureResponseDto(lectureRepository.findById(id).orElseThrow(() -> new CustomApiException(MEMBER_ACCOUNT_NOT_FOUND.getMessage())));
+    }
+
+
+    @Transactional(readOnly = true)
+    public List<ReadLectureResponseDto> readLectureByCategory(String category) {
+        List<Lecture> lectures = lectureRepository.findByCategory(category);
+        return lectures.stream().map(ReadLectureResponseDto::new).collect(Collectors.toList());
     }
 }
