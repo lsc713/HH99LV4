@@ -34,4 +34,13 @@ public class MemberService {
         Member member = memberRepository.save(requestDto.toEntity(encodedPassword));
         return new SignupResponseDto(member);
     }
+
+    @Transactional
+    public void delete(String email) {
+        Member member = memberRepository.findByEmail(email).orElseThrow(() ->
+                new CustomApiException(ErrorCode.MEMBER_ACCOUNT_NOT_FOUND.getMessage())
+        );
+
+        memberRepository.delete(member);
+    }
 }

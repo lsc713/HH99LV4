@@ -35,11 +35,13 @@ public class CommentResponseDto {
         private final String contents;
         private final String writer;
         private final LocalDateTime createdAt;
+        private final LocalDateTime modifiedAt;
 
         public GetCommentResponseDto(Comment comment) {
             this.contents = comment.getContents();
             this.writer = comment.getMember().getEmail();
             this.createdAt = comment.getCreatedAt();
+            this.modifiedAt = comment.getModifiedAt();
         }
     }
 }
