@@ -91,8 +91,7 @@
 - H2
 
 ## 🖼️ Use Case Diagram
-![image](https://github.com/lsc713/HH99LV4/assets/139448668/6ac2ba0b-c31b-452a-939b-0378cbd63c7d)
-
+<img width="721" alt="api" src="https://github.com/lsc713/HH99LV4/assets/139448668/6ac2ba0b-c31b-452a-939b-0378cbd63c7d">
 
 
 ## 🔖 ERD
