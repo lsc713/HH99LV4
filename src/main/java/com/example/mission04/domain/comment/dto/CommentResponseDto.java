@@ -18,4 +18,14 @@ public class CommentResponseDto {
             this.createdAt = comment.getCreatedAt();
         }
     }
+
+    @Getter
+    public static class EditCommentResponseDto {
+
+        private final String contents;
+
+        public EditCommentResponseDto(Comment comment) {
+            this.contents = comment.getContents();
+        }
+    }
 }

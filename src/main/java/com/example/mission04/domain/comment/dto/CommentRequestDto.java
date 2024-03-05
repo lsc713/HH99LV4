@@ -11,7 +11,7 @@ public class CommentRequestDto {
     @Getter
     public static class CreateCommentRequestDto {
 
-        @NotBlank(message = "댓글 내용을 입력해주세요.")
+        @NotBlank(message = "내용을 입력해주세요.")
         private String contents;
 
         public Comment toEntity(Member member, Lecture lecture) {
@@ -21,5 +21,12 @@ public class CommentRequestDto {
                     .lecture(lecture)
                     .build();
         }
+    }
+
+    @Getter
+    public static class EditCommentRequestDto {
+
+        @NotBlank(message = "내용을 입력해주세요.")
+        private String contents;
     }
 }
