@@ -91,7 +91,7 @@
 - H2
 
 ## 🖼️ Use Case Diagram
-<img width="721" src="https://lucid.app/lucidchart/4a114ff7-5131-476f-9782-db305436b334/edit?viewport_loc=254%2C-156%2C2819%2C1406%2C0_0&invitationId=inv_6adc14f1-8216-4ff4-ab74-942989bb8ddd">
+<div style="width: 640px; height: 480px; margin: 10px; position: relative;"><iframe allowfullscreen frameborder="0" style="width:640px; height:480px" src="https://lucid.app/documents/embedded/4a114ff7-5131-476f-9782-db305436b334" id="_bTgiuq3T8WX"></iframe></div>
 
 ## 🔖 ERD
 
