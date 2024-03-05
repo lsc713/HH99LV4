@@ -8,13 +8,14 @@ import com.example.mission04.domain.member.entity.Member;
 import com.example.mission04.global.handler.exception.CustomApiException;
 import com.example.mission04.global.security.UserDetailsImpl;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static com.example.mission04.global.handler.exception.ErrorCode.LECTURE_ID_NOT_FOUND;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class LikeService {
 
     private final LikeRepository likeRepository;

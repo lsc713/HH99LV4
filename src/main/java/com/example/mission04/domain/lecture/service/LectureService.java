@@ -10,6 +10,7 @@ import com.example.mission04.domain.like.repository.LikeRepository;
 import com.example.mission04.domain.member.repository.MemberRepository;
 import com.example.mission04.global.handler.exception.CustomApiException;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static com.example.mission04.global.handler.exception.ErrorCode.MEMBER_ACCOUNT_NOT_FOUND;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class LectureService {
 
     private final LectureRepository lectureRepository;
