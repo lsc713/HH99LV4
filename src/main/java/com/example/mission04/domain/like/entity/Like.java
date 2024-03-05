@@ -3,13 +3,15 @@ package com.example.mission04.domain.like.entity;
 import com.example.mission04.domain.lecture.entity.Lecture;
 import com.example.mission04.domain.member.entity.Member;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 @Table(name = "likes_tbl")
-@AllArgsConstructor
 public class Like {
 
     @Id
