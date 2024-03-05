@@ -2,6 +2,11 @@
 
 > Spring 주특기 네번째 과제
 
+## 👥 페어 프로그래밍
+
+- [이주호](https://github.com/lsc713)
+- [김수환](https://github.com/openmpy)
+
 ## 🔧 구현 기능
 
 - [x]  회원 가입 기능
