@@ -3,8 +3,12 @@ package com.example.mission04.domain.lecture.service;
 import com.example.mission04.domain.lecture.dto.LectureRequestDto.CreateLectureRequestDto;
 import com.example.mission04.domain.lecture.dto.LectureResponseDto.CreateLectureResponseDto;
 import com.example.mission04.domain.lecture.dto.LectureResponseDto.GetLectureResponseDto;
+import com.example.mission04.domain.lecture.dto.LectureResponseDto.SearchLectureResponseDto;
 import com.example.mission04.domain.lecture.entity.Lecture;
+import com.example.mission04.domain.lecture.entity.type.CategoryType;
 import com.example.mission04.domain.lecture.repository.LectureRepository;
+import com.example.mission04.domain.lecture.strategy.SortStrategy;
+import com.example.mission04.domain.lecture.strategy.SortStrategyFactory;
 import com.example.mission04.domain.member.repository.MemberRepository;
 import com.example.mission04.domain.teacher.entity.Teacher;
 import com.example.mission04.domain.teacher.repository.TeacherRepository;
@@ -12,6 +16,9 @@ import com.example.mission04.global.handler.exception.CustomApiException;
 import com.example.mission04.global.handler.exception.ErrorCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class LectureService {
@@ -46,5 +53,20 @@ public class LectureService {
         );
 
         return new GetLectureResponseDto(lecture);
+    }
+
+    @Transactional(readOnly = true)
+    public List<SearchLectureResponseDto> search(CategoryType category, String sortBy, String sortOrder) {
+        List<Lecture> lectureList = lectureRepository.findAllByCategory(category);
+
+        SortStrategy sortStrategy = SortStrategyFactory.getSortStrategy(sortBy);
+        sortStrategy.sort(lectureList);
+
+        if (sortOrder.equals("desc")) {
+            Collections.reverse(lectureList);
+        }
+        return lectureList.stream()
+                .map(SearchLectureResponseDto::new)
+                .toList();
     }
 }
