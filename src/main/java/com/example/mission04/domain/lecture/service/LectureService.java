@@ -7,6 +7,10 @@ import com.example.mission04.domain.lecture.repository.LectureRepository;
 import com.example.mission04.global.handler.exception.CustomApiException;
 import com.example.mission04.global.handler.exception.ErrorCode;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,12 +32,6 @@ public class LectureService {
         return new CraeteLectureResponseDto(lecture);
     }
 
-    private void validateAuthority(String email) {
-        if (!lectureRepository.existsByEmail(email)) {
-            throw new CustomApiException(MEMBER_ACCOUNT_NOT_FOUND.getMessage());
-        }
-    }
-
     @Transactional(readOnly = true)
     public ReadLectureResponseDto readLecture(Long id) {
         return new ReadLectureResponseDto(lectureRepository.findById(id).orElseThrow(() -> new CustomApiException(MEMBER_ACCOUNT_NOT_FOUND.getMessage())));
@@ -41,8 +39,18 @@ public class LectureService {
 
 
     @Transactional(readOnly = true)
-    public List<ReadLectureResponseDto> readLectureByCategory(String category) {
-        List<Lecture> lectures = lectureRepository.findByCategory(category);
-        return lectures.stream().map(ReadLectureResponseDto::new).collect(Collectors.toList());
+    public Page<ReadLectureResponseDto> readLectureByCategory(String category, int page, int size, String sortBy, boolean isAsc) {
+        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<Lecture> lectures = lectureRepository.findByCategory(category,pageable);
+        return lectures.map(ReadLectureResponseDto::new);
+    }
+
+    private void validateAuthority(String email) {
+        if (!lectureRepository.existsByEmail(email)) {
+            throw new CustomApiException(MEMBER_ACCOUNT_NOT_FOUND.getMessage());
+        }
     }
 }

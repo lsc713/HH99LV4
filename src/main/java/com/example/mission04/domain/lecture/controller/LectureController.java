@@ -9,6 +9,7 @@ import com.example.mission04.domain.member.entity.type.AuthorityType.Authority;
 import com.example.mission04.global.security.UserDetailsImpl;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -40,12 +41,15 @@ public class LectureController {
     }
 
     @GetMapping("/{category}")
-    public ResponseEntity<List<ReadLectureResponseDto>> readLectureByCategory(@PathVariable String category) {
-        return ResponseEntity.status(HttpStatus.OK).body(lectureService.readLectureByCategory(category));
+    public ResponseEntity<Page<ReadLectureResponseDto>> readLectureByCategory(
+            @RequestParam("page") int page,
+            @RequestParam("size") int size,
+            @RequestParam("sortBy") String sortBy,
+            @RequestParam("isAsc") boolean isAsc,
+            @PathVariable String category) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                lectureService.readLectureByCategory(category, page - 1, size, sortBy, isAsc));
     }
-
-
-
 
 
 }

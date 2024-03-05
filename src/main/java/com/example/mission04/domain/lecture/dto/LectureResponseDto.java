@@ -41,15 +41,12 @@ public class LectureResponseDto {
         private String lectureIntroduce;
         @NotBlank(message = "SPRING || REACT || NODE")
         private CategoryType category;
-        @NotBlank(message = "강사의 성함을 입력해주세요.")
-        private Teacher teacher;
 
         public ReadLectureResponseDto(Lecture lecture) {
             this.name = lecture.getName();
             this.price = lecture.getPrice();
             this.lectureIntroduce = lecture.getLectureIntroduce();
             this.category = lecture.getCategory();
-            this.teacher = lecture.getTeacher();
         }
     }
 }
