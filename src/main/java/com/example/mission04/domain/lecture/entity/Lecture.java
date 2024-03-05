@@ -42,11 +42,13 @@ public class Lecture extends Timestamped {
 
 
     @Builder
-    public Lecture(String name, Integer price, String lectureIntroduce, CategoryType category, Teacher teacher) {
+    public Lecture(String name, Integer price, String lectureIntroduce, CategoryType category, Teacher teacher, LocalDateTime createdAt) {
         this.name = name;
         this.price = price;
+        this.lectureIntroduce = lectureIntroduce;
         this.category = category;
         this.teacher = teacher;
+        this.createdAt = createdAt;
     }
 
 

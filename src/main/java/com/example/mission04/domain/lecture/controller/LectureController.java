@@ -7,9 +7,11 @@ import com.example.mission04.domain.lecture.entity.type.CategoryType;
 import com.example.mission04.domain.lecture.service.LectureService;
 import com.example.mission04.domain.like.service.LikeService;
 import com.example.mission04.domain.member.entity.type.AuthorityType.Authority;
+import com.example.mission04.global.dto.ResponseDto;
 import com.example.mission04.global.security.UserDetailsImpl;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api/v1/lectures")
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class LectureController {
 
     private final LectureService lectureService;
@@ -28,10 +30,10 @@ public class LectureController {
     @PostMapping
     @Secured(Authority.ADMIN)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<CreateLectureResponseDto> createLecture(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                                                  @RequestBody @Valid CreateLectureRequestDto requestDto, BindingResult bindingResult) {
+    public ResponseDto<CreateLectureResponseDto> createLecture(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                               @RequestBody @Valid CreateLectureRequestDto requestDto, BindingResult bindingResult) {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(lectureService.createLecture(userDetails.getUsername(), requestDto));
+        return ResponseDto.success("성공!ㅋㅋ",lectureService.createLecture(userDetails.getUsername(), requestDto));
     }
 
     @GetMapping("/{id}")
