@@ -22,4 +22,20 @@ public class TeacherResponseDto {
             this.introduction = teacher.getIntroduction();
         }
     }
+
+    @Getter
+    public static class GetTeacherResponseDto {
+
+        private final String name;
+        private final Integer career;
+        private final String company;
+        private final String introduction;
+
+        public GetTeacherResponseDto(Teacher teacher) {
+            this.name = teacher.getName();
+            this.career = teacher.getCareer();
+            this.company = teacher.getCompany();
+            this.introduction = teacher.getIntroduction();
+        }
+    }
 }

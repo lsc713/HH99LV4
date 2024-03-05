@@ -1,12 +1,18 @@
 package com.example.mission04.domain.member.entity;
 
+import com.example.mission04.domain.comment.entity.Comment;
+import com.example.mission04.domain.like.entity.Like;
 import com.example.mission04.domain.member.entity.type.AuthorityType;
 import com.example.mission04.domain.member.entity.type.GenderType;
+import com.example.mission04.domain.reply.entity.Reply;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -37,6 +43,15 @@ public class Member {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private AuthorityType authority;
+
+    @OneToMany(mappedBy = "member", orphanRemoval = true)
+    List<Comment> commentList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", orphanRemoval = true)
+    List<Reply> replyList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", orphanRemoval = true)
+    List<Like> likeList = new ArrayList<>();
 
     @Builder
     public Member(String email, String password, GenderType gender, String phone, String address, AuthorityType authority) {

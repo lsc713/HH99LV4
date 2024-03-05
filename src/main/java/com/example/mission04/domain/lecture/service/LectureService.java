@@ -2,67 +2,75 @@ package com.example.mission04.domain.lecture.service;
 
 import com.example.mission04.domain.lecture.dto.LectureRequestDto.CreateLectureRequestDto;
 import com.example.mission04.domain.lecture.dto.LectureResponseDto.CreateLectureResponseDto;
-import com.example.mission04.domain.lecture.dto.LectureResponseDto.ReadLectureResponseDto;
+import com.example.mission04.domain.lecture.dto.LectureResponseDto.GetLectureResponseDto;
+import com.example.mission04.domain.lecture.dto.LectureResponseDto.SearchLectureResponseDto;
 import com.example.mission04.domain.lecture.entity.Lecture;
 import com.example.mission04.domain.lecture.entity.type.CategoryType;
 import com.example.mission04.domain.lecture.repository.LectureRepository;
+import com.example.mission04.domain.lecture.strategy.SortStrategy;
+import com.example.mission04.domain.lecture.strategy.SortStrategyFactory;
 import com.example.mission04.domain.like.repository.LikeRepository;
 import com.example.mission04.domain.member.repository.MemberRepository;
+import com.example.mission04.domain.teacher.entity.Teacher;
+import com.example.mission04.domain.teacher.repository.TeacherRepository;
 import com.example.mission04.global.handler.exception.CustomApiException;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import com.example.mission04.global.handler.exception.ErrorCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.example.mission04.global.handler.exception.ErrorCode.MEMBER_ACCOUNT_NOT_FOUND;
+import java.util.Collections;
+import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class LectureService {
 
     private final LectureRepository lectureRepository;
     private final MemberRepository memberRepository;
+    private final TeacherRepository teacherRepository;
     private final LikeRepository likeRepository;
 
+    public LectureService(LectureRepository lectureRepository, MemberRepository memberRepository, TeacherRepository teacherRepository, LikeRepository likeRepository) {
+        this.lectureRepository = lectureRepository;
+        this.memberRepository = memberRepository;
+        this.teacherRepository = teacherRepository;
+        this.likeRepository = likeRepository;
+    }
+
     @Transactional
-    public CreateLectureResponseDto createLecture(String email, CreateLectureRequestDto requestDto) {
-        validateAuthority(email);
-        Lecture lecture = lectureRepository.save(requestDto.toEntity());
+    public CreateLectureResponseDto create(String email, CreateLectureRequestDto requestDto) {
+        if (!memberRepository.existsByEmail(email)) {
+            throw new CustomApiException(ErrorCode.MEMBER_ACCOUNT_NOT_FOUND.getMessage());
+        }
+        Teacher teacher = teacherRepository.findById(requestDto.getTeacherId()).orElseThrow(() ->
+                new CustomApiException(ErrorCode.TEACHER_ID_NOT_FOUND.getMessage())
+        );
+
+        Lecture lecture = lectureRepository.save(requestDto.toEntity(teacher));
         return new CreateLectureResponseDto(lecture);
     }
 
     @Transactional(readOnly = true)
-    public ReadLectureResponseDto readLecture(Long id) {
-        Lecture lecture = lectureRepository.findById(id).orElseThrow(() -> new CustomApiException(MEMBER_ACCOUNT_NOT_FOUND.getMessage()));
-        int likeCount = getLikeCount(id);
-        return new ReadLectureResponseDto(lecture,likeCount);
-    }
+    public GetLectureResponseDto get(Long lectureId) {
+        Lecture lecture = lectureRepository.findById(lectureId).orElseThrow(() ->
+                new CustomApiException(ErrorCode.LECTURE_ID_NOT_FOUND.getMessage())
+        );
 
-
-    @Transactional(readOnly = true)
-    public Page<ReadLectureResponseDto> readLectureByCategory(CategoryType category, int page, int size, String sortBy, boolean isAsc) {
-        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
-        Sort sort = Sort.by(direction, sortBy);
-        Pageable pageable = PageRequest.of(page, size, sort);
-        Page<Lecture> lectures = lectureRepository.findAllByCategory(category, pageable);
-        return lectures.map(lecture -> {
-            int likeCount = getLikeCount(lecture.getId());
-            return new ReadLectureResponseDto(lecture,likeCount);
-        });
+        Long likes = likeRepository.countByLecture(lecture);
+        return new GetLectureResponseDto(lecture, likes);
     }
 
     @Transactional(readOnly = true)
-    public int getLikeCount(Long lectureId) {
-        return likeRepository.countByLectureId(lectureId);
-    }
+    public List<SearchLectureResponseDto> search(CategoryType category, String sortBy, String sortOrder) {
+        List<Lecture> lectureList = lectureRepository.findAllByCategory(category);
 
-    private void validateAuthority(String email) {
-        if (!memberRepository.existsByEmail(email)) {
-            throw new CustomApiException(MEMBER_ACCOUNT_NOT_FOUND.getMessage());
+        SortStrategy sortStrategy = SortStrategyFactory.getSortStrategy(sortBy);
+        sortStrategy.sort(lectureList);
+
+        if (sortOrder.equals("desc")) {
+            Collections.reverse(lectureList);
         }
+        return lectureList.stream()
+                .map(SearchLectureResponseDto::new)
+                .toList();
     }
 }

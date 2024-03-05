@@ -5,8 +5,11 @@ import com.example.mission04.domain.like.entity.Like;
 import com.example.mission04.domain.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface LikeRepository extends JpaRepository<Like, Long> {
-    Like findByMemberAndLecture(Member member, Lecture lecture);
+import java.util.Optional;
 
-    int countByLectureId(Long lectureId);
+public interface LikeRepository extends JpaRepository<Like, Long> {
+
+    Optional<Like> findByMemberAndLecture(Member member, Lecture lecture);
+
+    Long countByLecture(Lecture lecture);
 }

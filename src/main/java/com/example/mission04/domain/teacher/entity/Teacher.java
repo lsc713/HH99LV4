@@ -1,13 +1,15 @@
 package com.example.mission04.domain.teacher.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 @Table(name = "teacher_tbl")
-@AllArgsConstructor
 public class Teacher {
 
     @Id

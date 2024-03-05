@@ -1,26 +1,32 @@
 package com.example.mission04.domain.like.controller;
 
-import com.example.mission04.domain.like.dto.LikeResponseDto;
 import com.example.mission04.domain.like.service.LikeService;
+import com.example.mission04.global.dto.ResponseDto;
 import com.example.mission04.global.security.UserDetailsImpl;
-import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/api/v1/likes")
+import java.util.concurrent.atomic.AtomicReference;
+
+@RequestMapping("/api/v1/lectures")
 @RestController
-@RequiredArgsConstructor
 public class LikeController {
 
     private final LikeService likeService;
-    @PostMapping("/{lectureId}/like")
-    public ResponseEntity pushLike(@PathVariable Long lectureId,
-                                   @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return ResponseEntity.status(HttpStatus.OK).body(likeService.createLike(userDetails,lectureId));
+
+    public LikeController(LikeService likeService) {
+        this.likeService = likeService;
+    }
+
+    @PostMapping("/{lectureId}/likes")
+    public ResponseDto<AtomicReference<String>> likes(
+            @PathVariable Long lectureId,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+        AtomicReference<String> result = likeService.likes(userDetails.getUsername(), lectureId);
+        return ResponseDto.success("선택한 강의 좋아요 기능", result);
     }
 }
