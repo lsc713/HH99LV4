@@ -40,6 +40,7 @@ public class LectureResponseDto {
         private final LocalDateTime createdAt;
         private final Long likes;
         private final GetTeacherResponseDto teacher;
+        private final List<GetCommentResponseDto> comments;
 
         public GetLectureResponseDto(Lecture lecture, Long likes) {
             this.name = lecture.getName();
@@ -49,6 +50,7 @@ public class LectureResponseDto {
             this.createdAt = lecture.getCreatedAt();
             this.likes = likes;
             this.teacher = new GetTeacherResponseDto(lecture.getTeacher());
+            this.comments = lecture.getCommentList().stream().map(GetCommentResponseDto::new).toList();
         }
     }
 
@@ -60,7 +62,6 @@ public class LectureResponseDto {
         private final String introduction;
         private final String category;
         private final LocalDateTime createdAt;
-        private final List<GetCommentResponseDto> comments;
 
         public SearchLectureResponseDto(Lecture lecture) {
             this.name = lecture.getName();
@@ -68,7 +69,6 @@ public class LectureResponseDto {
             this.introduction = lecture.getIntroduction();
             this.category = lecture.getCategory().name();
             this.createdAt = lecture.getCreatedAt();
-            this.comments = lecture.getCommentList().stream().map(GetCommentResponseDto::new).toList();
         }
     }
 }
