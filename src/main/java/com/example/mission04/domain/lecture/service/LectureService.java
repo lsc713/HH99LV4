@@ -5,6 +5,7 @@ import com.example.mission04.domain.lecture.dto.LectureResponseDto.CraeteLecture
 import com.example.mission04.domain.lecture.dto.LectureResponseDto.ReadLectureResponseDto;
 import com.example.mission04.domain.lecture.entity.Lecture;
 import com.example.mission04.domain.lecture.repository.LectureRepository;
+import com.example.mission04.domain.member.repository.MemberRepository;
 import com.example.mission04.global.handler.exception.CustomApiException;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,7 @@ import static com.example.mission04.global.handler.exception.ErrorCode.MEMBER_AC
 public class LectureService {
 
     private final LectureRepository lectureRepository;
+    private final MemberRepository memberRepository;
 
     @Transactional
     public CraeteLectureResponseDto createLecture(String email, CreateLectureRequestDto requestDto) {
@@ -46,7 +48,7 @@ public class LectureService {
     }
 
     private void validateAuthority(String email) {
-        if (!lectureRepository.findByEmailExists(email)) {
+        if (!memberRepository.existsByEmail(email)) {
             throw new CustomApiException(MEMBER_ACCOUNT_NOT_FOUND.getMessage());
         }
     }
