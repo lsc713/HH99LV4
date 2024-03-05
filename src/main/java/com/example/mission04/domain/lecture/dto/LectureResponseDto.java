@@ -38,14 +38,16 @@ public class LectureResponseDto {
         private final String introduction;
         private final String category;
         private final LocalDateTime createdAt;
+        private final Long likes;
         private final GetTeacherResponseDto teacher;
 
-        public GetLectureResponseDto(Lecture lecture) {
+        public GetLectureResponseDto(Lecture lecture, Long likes) {
             this.name = lecture.getName();
             this.price = lecture.getPrice();
             this.introduction = lecture.getIntroduction();
             this.category = lecture.getCategory().name();
             this.createdAt = lecture.getCreatedAt();
+            this.likes = likes;
             this.teacher = new GetTeacherResponseDto(lecture.getTeacher());
         }
     }

@@ -9,6 +9,7 @@ import com.example.mission04.domain.lecture.entity.type.CategoryType;
 import com.example.mission04.domain.lecture.repository.LectureRepository;
 import com.example.mission04.domain.lecture.strategy.SortStrategy;
 import com.example.mission04.domain.lecture.strategy.SortStrategyFactory;
+import com.example.mission04.domain.like.repository.LikeRepository;
 import com.example.mission04.domain.member.repository.MemberRepository;
 import com.example.mission04.domain.teacher.entity.Teacher;
 import com.example.mission04.domain.teacher.repository.TeacherRepository;
@@ -26,11 +27,13 @@ public class LectureService {
     private final LectureRepository lectureRepository;
     private final MemberRepository memberRepository;
     private final TeacherRepository teacherRepository;
+    private final LikeRepository likeRepository;
 
-    public LectureService(LectureRepository lectureRepository, MemberRepository memberRepository, TeacherRepository teacherRepository) {
+    public LectureService(LectureRepository lectureRepository, MemberRepository memberRepository, TeacherRepository teacherRepository, LikeRepository likeRepository) {
         this.lectureRepository = lectureRepository;
         this.memberRepository = memberRepository;
         this.teacherRepository = teacherRepository;
+        this.likeRepository = likeRepository;
     }
 
     @Transactional
@@ -52,7 +55,8 @@ public class LectureService {
                 new CustomApiException(ErrorCode.LECTURE_ID_NOT_FOUND.getMessage())
         );
 
-        return new GetLectureResponseDto(lecture);
+        Long likes = likeRepository.countByLecture(lecture);
+        return new GetLectureResponseDto(lecture, likes);
     }
 
     @Transactional(readOnly = true)
