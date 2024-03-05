@@ -9,6 +9,7 @@ public enum ErrorCode {
     MEMBER_ACCOUNT_NOT_FOUND("찾을 수 없는 계정입니다."),
     COMMENT_ID_NOT_FOUND("찾을 수 없는 댓글 번호입니다."),
     REPLY_ID_NOT_FOUND("찾을 수 없는 대댓글 번호입니다."),
+    LECTURE_ID_NOT_FOUND("찾을 수 없는 강의 번호입니다."),
     ;
 
     private final String message;
