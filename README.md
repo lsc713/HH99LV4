@@ -21,19 +21,19 @@
         - 로그인을 통해 발급받은 JWT가 함께 요청됩니다.
         - ADMIN 권한을 가진 회원만 강사 등록이 가능합니다.
     - 등록된 강사의 정보를 반환 받아 확인할 수 있습니다.
-- [ ]  강의 등록 기능
+- [x]  강의 등록 기능
     - `강의명`, `가격`, `소개`, `카테고리`, `강사`, `등록일`을 저장할 수 있습니다.
         - Spring, React, Node `카테고리`가 있습니다.
         - 강사 한 명이 여러 개의 강의를 촬영할 수도 있습니다.
         - 로그인을 통해 발급받은 JWT가 함께 요청됩니다.
         - ADMIN 권한을 가진 회원만 강의 등록이 가능합니다.
     - 등록된 강의의 정보를 반환 받아 확인할 수 있습니다.
-- [ ]  선택한 강의 조회 기능
+- [x]  선택한 강의 조회 기능
     - 선택한 강의의 정보를 조회할 수 있습니다.
         - 모든 사용자가 강의를 조회할 수 있습니다.
         - 강의를 촬영한 강사의 정보를 확인할 수 있습니다.
             - 강사의 정보에 `전화번호`는 제외 되어있습니다.
-- [ ]  카테고리별 강의 목록 조회 기능
+- [x]  카테고리별 강의 목록 조회 기능
     - 선택한 `카테고리`에 포함된 강의를 조회할 수 있습니다.
         - 모든 사용자가 강의를 조회할 수 있습니다.
         - 강사의 정보는 제외됩니다.
@@ -59,7 +59,7 @@
         - 해당 댓글을 등록한 회원만 댓글 삭제가 가능합니다.
     - 댓글 삭제 성공을 확인할 수 있는 값을 반환합니다.
         - ex) HTTP Status Code, Error Message …
-- [ ]  선택한 강의 좋아요 기능
+- [x]  선택한 강의 좋아요 기능
     - 선택한 강의에 좋아요를 등록할 수 있습니다.
         - 로그인을 통해 발급받은 JWT가 함께 요청됩니다.
         - 회원만 좋아요 등록이 가능합니다.
@@ -71,11 +71,11 @@
     - 로그인 요청의 비밀번호 불일치 등 API 요청의 예외가 발생하는 모든 경우에 대해서 실패(예외상황)에 대해 판단할 수 있는 Status Code, Error 메시지등의 정보를 반환합니다.
 - [x]  대댓글 기능
     - 대댓글이 가능하도록 구현해보세요!
-- [ ]  회원 탈퇴 기능
+- [x]  회원 탈퇴 기능
     - 회원 탈퇴 시 회원과 연관된 데이터가 모두 삭제될 수 있도록 구현해보세요!
 - [x]  Spring Security를 적용하여 인증/인가를 구현합니다.
     - Security의 Secured 기능을 사용하여 권한별로 API를 제어할 수 있습니다.
-- [ ]  swagger를 구글링해 보고 프로젝트에 적용해 보세요!
+- [x]  swagger를 구글링해 보고 프로젝트에 적용해 보세요!
     - swagger란? Open Api Specification(OAS)를 위한 프레임워크 입니다.
         - API들이 가지고 있는 스펙(spec)을 명세, 관리할 수 있으며 백엔드와 프론트엔드가 협업할 때 사용할 수 있습니다!
 
@@ -117,6 +117,8 @@ erDiagram
     Lecture {
         int id PK "ID"
         int teacher_id FK "강사 ID"
+        string name "강의명"
+        int price "가격"
         string introduction "소개"
         string category "카테고리"
         date created_at "등록일자"
@@ -128,6 +130,7 @@ erDiagram
         int lecture_id FK "강의 ID"
         string contents "내용"
         date created_at "작성일자"
+        date modified_at "수정일자"
     }
 
     Reply {
@@ -136,12 +139,13 @@ erDiagram
         int comment_id FK "강의 ID"
         string contents "내용"
         date created_at "작성일자"
+        date modified_at "수정일자"
     }
 
     Like {
         int id PK "ID"
         int member_id FK "회원 ID"
-        int comment_id FK "강의 ID"
+        int lecture_id FK "강의 ID"
         date created_at "등록일자"
     }
 
@@ -155,3 +159,5 @@ erDiagram
 ```
 
 ## 📄 API 명세서
+
+<img width="721" alt="api" src="https://github.com/lsc713/HH99LV4/assets/150704638/cb7bc540-e839-4cc7-aa3b-c2310340c430">
