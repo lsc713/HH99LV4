@@ -2,6 +2,7 @@ package com.example.mission04.domain.lecture.controller;
 
 import com.example.mission04.domain.lecture.dto.LectureRequestDto.CreateLectureRequestDto;
 import com.example.mission04.domain.lecture.dto.LectureResponseDto.CreateLectureResponseDto;
+import com.example.mission04.domain.lecture.dto.LectureResponseDto.GetLectureResponseDto;
 import com.example.mission04.domain.lecture.service.LectureService;
 import com.example.mission04.domain.member.entity.type.AuthorityType.Authority;
 import com.example.mission04.global.dto.ResponseDto;
@@ -31,5 +32,11 @@ public class LectureController {
     ) {
         CreateLectureResponseDto responseDto = lectureService.create(userDetails.getUsername(), requestDto);
         return ResponseDto.success("강의 등록 기능", responseDto);
+    }
+
+    @GetMapping("/{lectureId}")
+    public ResponseDto<GetLectureResponseDto> get(@PathVariable Long lectureId) {
+        GetLectureResponseDto responseDto = lectureService.get(lectureId);
+        return ResponseDto.success("강의 조회 기능", responseDto);
     }
 }

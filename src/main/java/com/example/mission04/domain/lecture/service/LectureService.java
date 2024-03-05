@@ -2,6 +2,7 @@ package com.example.mission04.domain.lecture.service;
 
 import com.example.mission04.domain.lecture.dto.LectureRequestDto.CreateLectureRequestDto;
 import com.example.mission04.domain.lecture.dto.LectureResponseDto.CreateLectureResponseDto;
+import com.example.mission04.domain.lecture.dto.LectureResponseDto.GetLectureResponseDto;
 import com.example.mission04.domain.lecture.entity.Lecture;
 import com.example.mission04.domain.lecture.repository.LectureRepository;
 import com.example.mission04.domain.member.repository.MemberRepository;
@@ -36,5 +37,14 @@ public class LectureService {
 
         Lecture lecture = lectureRepository.save(requestDto.toEntity(teacher));
         return new CreateLectureResponseDto(lecture);
+    }
+
+    @Transactional(readOnly = true)
+    public GetLectureResponseDto get(Long lectureId) {
+        Lecture lecture = lectureRepository.findById(lectureId).orElseThrow(() ->
+                new CustomApiException(ErrorCode.LECTURE_ID_NOT_FOUND.getMessage())
+        );
+
+        return new GetLectureResponseDto(lecture);
     }
 }
