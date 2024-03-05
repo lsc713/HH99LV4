@@ -1,11 +1,11 @@
 package com.example.mission04.domain.lecture.service;
 
-import com.example.mission04.domain.lecture.dto.LectureRequestDto.*;
-import com.example.mission04.domain.lecture.dto.LectureResponseDto.*;
+import com.example.mission04.domain.lecture.dto.LectureRequestDto.CreateLectureRequestDto;
+import com.example.mission04.domain.lecture.dto.LectureResponseDto.CraeteLectureResponseDto;
+import com.example.mission04.domain.lecture.dto.LectureResponseDto.ReadLectureResponseDto;
 import com.example.mission04.domain.lecture.entity.Lecture;
 import com.example.mission04.domain.lecture.repository.LectureRepository;
 import com.example.mission04.global.handler.exception.CustomApiException;
-import com.example.mission04.global.handler.exception.ErrorCode;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,9 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.example.mission04.global.handler.exception.ErrorCode.MEMBER_ACCOUNT_NOT_FOUND;
 
@@ -49,7 +46,7 @@ public class LectureService {
     }
 
     private void validateAuthority(String email) {
-        if (!lectureRepository.existsByEmail(email)) {
+        if (!lectureRepository.findByEmailExists(email)) {
             throw new CustomApiException(MEMBER_ACCOUNT_NOT_FOUND.getMessage());
         }
     }
