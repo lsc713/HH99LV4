@@ -36,4 +36,8 @@ public class Reply extends Timestamped {
         this.member = member;
         this.comment = comment;
     }
+
+    public void update(String contents) {
+        this.contents = contents;
+    }
 }
