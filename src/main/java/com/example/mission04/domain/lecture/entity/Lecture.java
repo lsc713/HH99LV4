@@ -1,11 +1,13 @@
 package com.example.mission04.domain.lecture.entity;
 
-import com.example.mission04.domain.lecture.dto.LectureRequestDto.*;
 import com.example.mission04.domain.lecture.entity.type.CategoryType;
 import com.example.mission04.domain.teacher.entity.Teacher;
 import com.example.mission04.global.entity.Timestamped;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -34,20 +36,18 @@ public class Lecture extends Timestamped {
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
 
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime createdAt;
+
+
     @Builder
-    public Lecture(String name, Integer price, CategoryType category, Teacher teacher) {
+    public Lecture(String name, Integer price, String lectureIntroduce, CategoryType category, Teacher teacher) {
         this.name = name;
         this.price = price;
         this.category = category;
         this.teacher = teacher;
     }
 
-    @Builder
-    public Lecture(CreateLectureRequestDto requestDto) {
-        this.name = requestDto.getName();
-        this.price = requestDto.getPrice();
-        this.lectureIntroduce = requestDto.getLectureIntroduce();
-        this.category = requestDto.getCategory();
-        this.teacher = requestDto.getTeacher();
-    }
+
 }

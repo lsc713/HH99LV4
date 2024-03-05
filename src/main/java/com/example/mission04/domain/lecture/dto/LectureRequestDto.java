@@ -3,9 +3,13 @@ package com.example.mission04.domain.lecture.dto;
 import com.example.mission04.domain.lecture.entity.Lecture;
 import com.example.mission04.domain.lecture.entity.type.CategoryType;
 import com.example.mission04.domain.teacher.entity.Teacher;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+import java.time.LocalDateTime;
 
 public class LectureRequestDto {
 
@@ -15,14 +19,14 @@ public class LectureRequestDto {
     public static class CreateLectureRequestDto {
         @NotBlank(message = "제목을 입력해주세요.")
         private String name;
-        @NotBlank(message = "가격을 입력해주세요.")
+        @PositiveOrZero(message = "양의 정수가 필요합니다")
         private Integer price;
         @NotBlank(message = "소개를 입력해주세요.")
         private String lectureIntroduce;
-        @NotBlank(message = "SPRING || REACT || NODE")
         private CategoryType category;
-        @NotBlank(message = "강사의 성함을 입력해주세요.")
         private Teacher teacher;
+        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+        private LocalDateTime createdAt;
 
         public Lecture toEntity() {
             return Lecture.builder()
@@ -31,6 +35,7 @@ public class LectureRequestDto {
                     .lectureIntroduce(this.lectureIntroduce)
                     .category(this.category)
                     .teacher(this.teacher)
+                    .createdAt(this.createdAt)
                     .build();
         }
 

@@ -2,25 +2,22 @@ package com.example.mission04.domain.lecture.dto;
 
 import com.example.mission04.domain.lecture.entity.Lecture;
 import com.example.mission04.domain.lecture.entity.type.CategoryType;
-import com.example.mission04.domain.teacher.dto.TeacherResponseDto;
 import com.example.mission04.domain.teacher.entity.Teacher;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 
 public class LectureResponseDto {
 
     @Getter
     @AllArgsConstructor
-    public static class CraeteLectureResponseDto{
+    public static class CreateLectureResponseDto{
         private String name;
         private int price;
         private String lectureIntroduce;
         private CategoryType category;
         private Teacher teacher;
 
-        public CraeteLectureResponseDto(Lecture lecture) {
+        public CreateLectureResponseDto(Lecture lecture) {
             this.name = lecture.getName();
             this.price = lecture.getPrice();
             this.lectureIntroduce = lecture.getLectureIntroduce();
@@ -33,20 +30,18 @@ public class LectureResponseDto {
     @Getter
     @AllArgsConstructor
     public static class ReadLectureResponseDto {
-        @NotBlank(message = "제목을 입력해주세요.")
         private String name;
-        @NotBlank(message = "가격을 입력해주세요.")
         private Integer price;
-        @NotBlank(message = "소개를 입력해주세요.")
         private String lectureIntroduce;
-        @NotBlank(message = "SPRING || REACT || NODE")
         private CategoryType category;
+        private Integer like;
 
-        public ReadLectureResponseDto(Lecture lecture) {
+        public ReadLectureResponseDto(Lecture lecture, int likeCount) {
             this.name = lecture.getName();
             this.price = lecture.getPrice();
             this.lectureIntroduce = lecture.getLectureIntroduce();
             this.category = lecture.getCategory();
+            this.like = likeCount;
         }
     }
 }
