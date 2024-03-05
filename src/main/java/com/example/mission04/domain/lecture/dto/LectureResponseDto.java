@@ -1,10 +1,12 @@
 package com.example.mission04.domain.lecture.dto;
 
+import com.example.mission04.domain.comment.dto.CommentResponseDto.GetCommentResponseDto;
 import com.example.mission04.domain.lecture.entity.Lecture;
 import com.example.mission04.domain.teacher.dto.TeacherResponseDto.GetTeacherResponseDto;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class LectureResponseDto {
 
@@ -56,6 +58,7 @@ public class LectureResponseDto {
         private final String introduction;
         private final String category;
         private final LocalDateTime createdAt;
+        private final List<GetCommentResponseDto> comments;
 
         public SearchLectureResponseDto(Lecture lecture) {
             this.name = lecture.getName();
@@ -63,6 +66,7 @@ public class LectureResponseDto {
             this.introduction = lecture.getIntroduction();
             this.category = lecture.getCategory().name();
             this.createdAt = lecture.getCreatedAt();
+            this.comments = lecture.getCommentList().stream().map(GetCommentResponseDto::new).toList();
         }
     }
 }

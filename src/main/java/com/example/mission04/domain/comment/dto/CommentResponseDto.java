@@ -28,4 +28,18 @@ public class CommentResponseDto {
             this.contents = comment.getContents();
         }
     }
+
+    @Getter
+    public static class GetCommentResponseDto {
+
+        private final String contents;
+        private final String writer;
+        private final LocalDateTime createdAt;
+
+        public GetCommentResponseDto(Comment comment) {
+            this.contents = comment.getContents();
+            this.writer = comment.getMember().getEmail();
+            this.createdAt = comment.getCreatedAt();
+        }
+    }
 }

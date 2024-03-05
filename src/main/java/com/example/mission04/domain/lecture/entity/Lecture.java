@@ -1,5 +1,6 @@
 package com.example.mission04.domain.lecture.entity;
 
+import com.example.mission04.domain.comment.entity.Comment;
 import com.example.mission04.domain.lecture.entity.type.CategoryType;
 import com.example.mission04.domain.teacher.entity.Teacher;
 import com.example.mission04.global.entity.Timestamped;
@@ -8,6 +9,9 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -35,6 +39,9 @@ public class Lecture extends Timestamped {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
+
+    @OneToMany(mappedBy = "lecture")
+    private final List<Comment> commentList = new ArrayList<>();
 
     @Builder
     public Lecture(String name, Integer price, String introduction, CategoryType category, Teacher teacher) {
